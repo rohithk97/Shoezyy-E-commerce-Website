@@ -10,6 +10,7 @@ from django.core.paginator import Paginator
 from .models import *
 from cartapp.models import Order
 import pyotp
+import re
 from .forms import UserProfileForm,UserForm
 
 # Create your views here.
@@ -64,8 +65,10 @@ def register(request):
                     messages.error(request, 'Passwords do not match')
                     return redirect(register)
         
-        else:
-
+        elif not re.match(r'^(?=.*[A-Z])[A-Za-z\d]{6,}$', password):
+            messages.error(request,'Password must contain atleast 6 characters and also an uppercase letter')
+            return redirect(register)
+            
         # Generate OTP
             otp = generate_otp()
             print(otp)
