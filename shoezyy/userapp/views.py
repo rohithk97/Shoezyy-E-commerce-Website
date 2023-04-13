@@ -17,6 +17,7 @@ from .forms import UserProfileForm,UserForm
 
 def index(request):
     product=Product.objects.all().order_by('-created')
+    category=Category.objects.all().order_by('id')
     return render(request,'user/index.html',locals())
 
 def signin(request):
@@ -386,3 +387,17 @@ def user(request):
 def orderbook(request):
     orders = Order.objects.filter(user=request.user).order_by("-created_at")
     return render(request, 'user/myorders.html', {'orders': orders})
+
+def subscribe(request):
+
+    if request.method =='POST': 
+        email=request.POST['email']
+        subject = 'Welcome To Shoezyy'
+        message = f'Thank you for subscribing to our Newsletter,We will update you on our latest Offers'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [email]
+        send_mail(subject, message, email_from, recipient_list)
+        messages.info(request,"Thank you for subscribing")
+    else:
+        messages.info(request,"Enter your Email Address")
+    return redirect(index)

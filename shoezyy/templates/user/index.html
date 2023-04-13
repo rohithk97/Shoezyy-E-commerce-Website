@@ -156,33 +156,18 @@
                 </div>
             </div>
             <div class="row align-items-center justify-content-between">
-                <div class="col-lg-7 col-sm-6">
+                {% for i in category %}
+                <div class="col-lg-6">
                     <div class="single_feature_post_text">
-                        <a href="{% url 'userproduct' 1 %}" class="feature_btn text-dark">LATEST FROM CASUALS <i class="fas fa-play"></i></a>
-                        <img src="{% static 'img/home img/CASUALS.png' %}" alt="" style="height: 100%; width:100;">
+                        <a href="{% url 'userproduct' i.id %}" class="feature_btn text-dark">LATEST FROM <i class="fas fa-play">{{i.name}}</i></a>
+                        <img src="{{i.image.url}}" alt="" style="height: 100%; width:100;">
                     </div>
                 </div>
-                <div class="col-lg-5 col-sm-6">
-                    <div class="single_feature_post_text">
-                        <a href="{% url 'userproduct' 2 %}" class="feature_btn text-dark">LATEST FROM FORMALS<i class="fas fa-play"></i></a>
-                        <img src="{% static 'img/home img/formals.png' %}" alt="" style=" width:100%;">
-                    </div>
-                </div>
-                <div class="col-lg-5 col-sm-6">
-                    <div class="single_feature_post_text">
-                        
-                        <img src="{% static 'img/home img/womans.png' %}" alt=""  style="height: 100%; width:100%;"> 
-                        <a href="{% url 'userproduct' 3 %}" class="feature_btn text-dark">LATEST FROM  WOMANS</span><i class="fas fa-play"></i></a>
-                    </div>
-                </div>
+                {% endfor %}
                 
-                <div class="col-lg-7 col-sm-6">
-                    <div class="single_feature_post_text">
-                        
-                        <a href="{% url 'userproduct' 4 %}" class="feature_btn text-dark font-weight-bold">LATEST FROM KIDS<i class="fas fa-play"></i></a>
-                        <img src="{% static 'img/home img/kdz.png' %}" alt="" style=" width:100%;">
-                    </div>
-                </div>
+                
+                
+                
                 
             </div>
         </div>
@@ -236,15 +221,18 @@
             <div class="row justify-content-center">
                 <div class="col-lg-7">
                     <div class="subscribe_area_text text-center ">
+                        <form action="{% url 'subscribe' %}" method="POST" class="">
+                            {% csrf_token %}
                         <h5 class="text-warning">Join Our Newsletter</h5>
                         <h2 class="text-light">Subscribe to get Updated
                             with new offers</h2>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="enter email address"
-                                aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            <input type="email" class="form-control" placeholder="enter email address"
+                                aria-label="Recipient's username" aria-describedby="basic-addon2" name="email">
                             <div class="input-group-append">
-                                <a href="#" class="input-group-text btn_2" style="background-color:grey;" id="basic-addon">subscribe now</a>
+                                <button href="#" type="submit" class="input-group-text btn_2" style="background-color:grey;" id="basic-addon">subscribe now</button>
                             </div>
+                        </form>    
                         </div>
                     </div>
                 </div>
@@ -303,7 +291,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-4">
+                {% comment %} <div class="col-sm-6 col-lg-4">
                     <div class="single_footer_part">
                         <h4>Newsletter</h4>
                         <p>Heaven fruitful doesn't over lesser in days. Appear creeping
@@ -321,7 +309,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> {% endcomment %} 
             </div>
             
         </div>

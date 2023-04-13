@@ -79,13 +79,13 @@ def logout(request):  #LOGOUT REQUEST
 def addcategory(request):
     if request.method == 'POST':
         name = request.POST['name']
-        
+        images = request.FILES.get('images')
         
         if Category.objects.filter(name__iexact=name.lower().replace(' ', '')).exists():
             messages.info(request, "Category already exists")
 
         else:
-            Category.objects.create(name=name)
+            Category.objects.create(name=name,image=images)
             messages.success(request, "Category added successfully")
             return redirect(viewcategory)
     return render(request, 'admin/add_category.html')
@@ -103,7 +103,10 @@ def editcategory(request,pid):
     category = Category.objects.get(id=pid)
     if request.method == 'POST':
         name = request.POST['name']
+        images = request.FILES.get('images')
         category.name = name
+        if images is not None:
+            category.image=images
         category.save()
         messages.success(request,'Category edited successfully')
         return redirect(viewcategory)

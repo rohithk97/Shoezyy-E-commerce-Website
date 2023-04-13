@@ -28,6 +28,8 @@ urlpatterns = [
     path('edit-address/<int:address_id>/',edit_address, name='edit_address'),
     
     path('orderbook/', orderbook, name='orderbook'),
+    
+    path('subscribe/',subscribe,name='subscribe'),
 
    
 
