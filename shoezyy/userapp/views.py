@@ -65,32 +65,29 @@ def register(request):
         elif password != confirm_password:
                     messages.error(request, 'Passwords do not match')
                     return redirect(register)
-        
-        elif not re.match(r'^(?=.*[A-Z])[A-Za-z\d]{6,}$', password):
-            messages.error(request,'Password must contain atleast 6 characters and also an uppercase letter')
-            return redirect(register)
-            
-        # Generate OTP
+        else:
+            # Validate password
+            if not re.match(r'^(?=.*[A-Z])[A-Za-z\d]{6,}$', password):
+                messages.error(request, 'Password must be at least 6 characters long and contain at least one uppercase letter')
+                return redirect(register)
+
+            # Generate OTP
             otp = generate_otp()
-            print(otp)
         
-        # Save user details to database
-            
+            # Save user details to database
             user = User.objects.create_user(username=email, password=password, first_name=username)
             
-        # Send OTP to user email
+            # Send OTP to user email
             send_otp_email(email, otp)
 
-
-         # Create UserProfile object for the user
+            # Create UserProfile object for the user
             UserProfile.objects.create(user=user)
             
-            
-        # Save OTP to database
+            # Save OTP to database
             user.profile.otp = otp
             user.profile.save()
         
-        # Redirect to OTP verification page
+            # Redirect to OTP verification page
             return redirect('verifyotp', user.id)
 
     return render(request, 'user/register.html')
